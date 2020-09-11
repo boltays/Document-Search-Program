@@ -1,6 +1,6 @@
-#Document Search Program
+# Document Search Program
 
-##Requirements
+## Requirements
 ---
 * cmake 3.17.3-2
 * cmake-debug-info 3.17.3-2
