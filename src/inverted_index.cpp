@@ -36,4 +36,52 @@ void InvertIndex::showFiles()
 }
 
 
+int InvertIndex::parseAndIndex(string path)
+{
+    ifstream file;
+    file.open(path);
+    if(!file.is_open()) return 1;
+    map<string, int> categories;
+    while(file.good())
+    {
+        string s;
+        getline(file, s);
+        int pos = s.find_first_of(' ');
+        if(pos < 0) continue;
+        while(s.size() > 0)
+        {
+            pos = s.find_first_of(' ');
+            if(pos < 0)
+                pos = s.size();
+            string word = s.substr(0, pos);    
+            categories[word]++;
+            s = s.erase(0, pos+1);
+        } 
+    }
+    for(map<string, int>::iterator wit = categories.begin(); wit != categories.end(); ++wit)
+    {
+        occurencesInFile[wit->first].push_back(make_pair(path, wit->second));
+    }
+    return 0;
+}
 
+
+void InvertIndex::showAllIndex(void)
+{
+    for(auto elem : occurencesInFile)
+    {
+        std::cout << elem.first << "\n";
+        for(auto it : elem.second)
+        {
+            cout <<it.first <<" " <<it.second <<"\n";
+        }
+    }
+}
+
+void InvertIndex::indexAllDir(void)
+{
+    for(auto it : fileList)
+    {
+        parseAndIndex(it);
+    }
+}
