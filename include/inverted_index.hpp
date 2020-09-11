@@ -26,6 +26,11 @@ class InvertIndex
     public:
         void addFile(const fs::path& pathToScan, int level = 0);
         void showFiles();
+		int parseAndIndex(string path);
+		void showAllIndex(void);
+		void indexAllDir(void);
+		
+		
 };
 
 
