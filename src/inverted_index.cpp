@@ -53,12 +53,23 @@ int InvertIndex::parseAndIndex(string path)
             pos = s.find_first_of(' ');
             if(pos < 0)
                 pos = s.size();
-            string word = s.substr(0, pos);    
+            string word = s.substr(0, pos);  
+			if(word != "")
+            {
+                for(int ind = 0; ind <= word.size(); ind++)
+                {
+                    if(word[ind] >= 65 && word[ind]<= 90)
+                    {
+                        word[ind] += 32;    
+                    }                   
+                }
+            } 
+			
             categories[word]++;
             s = s.erase(0, pos+1);
         } 
     }
-    for(map<string, int>::iterator wit = categories.begin(); wit != categories.end(); ++wit)
+    for(auto wit = categories.begin(); wit != categories.end(); ++wit)
     {
         occurencesInFile[wit->first].push_back(make_pair(path, wit->second));
     }
