@@ -29,6 +29,7 @@ class InvertIndex
 		int parseAndIndex(string path);
 		void showAllIndex(void);
 		void indexAllDir(void);
+		void searchWord(string wordToSearch);
 		
 		
 };
