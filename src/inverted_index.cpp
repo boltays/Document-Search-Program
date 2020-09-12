@@ -85,3 +85,42 @@ void InvertIndex::indexAllDir(void)
         parseAndIndex(it);
     }
 }
+
+bool comp(const pair<string, int> &a, const pair<string, int> &b)
+{
+    int term1 = a.second;
+    int term2 = b.second;
+
+    return term1>term2;
+}
+
+void InvertIndex::searchWord(string wordToSearch)
+{
+	for(auto elem : occurencesInFile)
+	{
+		if(wordToSearch == elem.first)
+		{
+			std::cout << elem.first << "\n"; 
+			sort(elem.second.begin(), elem.second.end(), comp);
+			for(auto it : elem.second)
+            {                  
+                cout <<it.first <<" " <<it.second <<"\n";
+            }
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
