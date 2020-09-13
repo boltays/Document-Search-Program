@@ -39,12 +39,18 @@ vector<string> & InvertedIndex::getFileList(void)
 	return this->fileList;
 }
 
-void InvertedIndex::showFiles()
+int InvertedIndex::showFiles(std::ostream& cout)
 {
-    for (auto it : getFileList())
+    if(getFileList().size() == 0)
+	{
+		return 1;
+	}
+	
+    for(auto it = getFileList().begin(); it != getFileList().end(); it++)
     {
-        cout << it << endl;
+        cout << *it << "\n";
     }
+    return 0;
 }
 
 
