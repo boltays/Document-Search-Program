@@ -5,6 +5,7 @@
 
 extern string slashForPath;
 extern bool comp(const pair<string, int> &a, const pair<string, int> &b);
+extern string nameOfIndexTxt;
 
 class InIndex : public testing::Test
 {
@@ -126,4 +127,116 @@ TEST_F(InIndex, test_comparison_function)
 	
 	ASSERT_EQ(comp(b,a), 1);
 	ASSERT_EQ(comp(a,b), 0);
+}
+
+TEST_F(InIndex, test_streaming_index_to_file)
+{
+	InvertedIndex obj;
+	InvertedIndex obj1;
+	
+	string pathOfLibrary;
+	determineExactPathLibrary(pathOfLibrary);
+	
+	
+    obj.addFile(pathOfLibrary);
+    obj.indexAllDir();
+    
+    obj1.addFile(pathOfLibrary);
+    obj1.indexAllDir();
+    
+    string pathToText = fs::current_path().u8string();
+    pathToText += slashForPath + nameOfIndexTxt;
+    
+    stringstream stream;
+    
+    ASSERT_EQ(obj.streamAllIndex(stream), 0);
+    ASSERT_NE(fs::file_size(pathToText), 0);	
+	
+	ASSERT_EQ(compareTwoMap(obj1.getOccurenceInFile(), obj.getOccurenceInFile()), 1);	
+	
+    stringstream show;
+	obj1.streamAllIndex(show);
+    
+    
+    string streamString;
+    string showString;
+    
+    while(stream >> streamString && show >> showString)
+    {
+    	//cout << streamString <<" " <<showString <<endl;
+    	ASSERT_EQ(streamString.compare(showString), 0);
+    }
+}
+
+TEST_F(InIndex, test_retrieve_word_from_file)
+{
+	InvertedIndex obj;
+	InvertedIndex obj1;
+	
+	string pathOfLibrary;
+	determineExactPathLibrary(pathOfLibrary);
+	
+    obj.addFile(pathOfLibrary);
+    obj.indexAllDir();
+       
+    stringstream ss;
+    obj.streamAllIndex(ss);
+       
+    stringstream retrieveFunction;
+    stringstream searchWordFunction;
+    
+    
+    string path = fs::current_path().u8string();
+    path += slashForPath + nameOfIndexTxt;
+    obj.retrieveWord(path, "the", retrieveFunction);
+    obj.searchWord("the", searchWordFunction);
+    
+    
+    string line;
+    string line1;
+    
+
+	int countForNewLine = 0;
+	
+    while(retrieveFunction >> line && searchWordFunction >> line1)
+    {
+		//cout <<line <<" " <<line1 <<endl;
+    	ASSERT_EQ(line.compare(line1), 0);
+    }    
+}
+
+TEST_F(InIndex, upper_lower_case_sensitivity)
+{
+	InvertedIndex obj;
+	InvertedIndex obj1;
+	
+	string pathOfLibrary;
+	determineExactPathLibrary(pathOfLibrary);
+	
+    obj.addFile(pathOfLibrary);
+    obj.indexAllDir();
+       
+    stringstream ss;
+    obj.streamAllIndex(ss);
+       
+    stringstream retrieveFunction;
+    stringstream searchWordFunction;
+    
+    
+    string path = fs::current_path().u8string();
+    path += slashForPath + nameOfIndexTxt;
+    obj.retrieveWord(path, "the", retrieveFunction);
+    obj.searchWord("The", searchWordFunction);
+    
+    cout <<path <<endl;
+    string line;
+    string line1;
+    
+
+	int countForNewLine = 0;
+	
+    while(retrieveFunction >> line && searchWordFunction >> line1)
+    {
+    	ASSERT_EQ(line.compare(line1), 0);
+    }    
 }
