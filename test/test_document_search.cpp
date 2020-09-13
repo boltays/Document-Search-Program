@@ -2,7 +2,9 @@
 #include <climits>
 #include "../include/inverted_index.hpp"
 
-
+/* The variables and function from source file is externed
+   for using in test functions.
+*/
 extern string slashForPath;
 extern bool comp(const pair<string, int> &a, const pair<string, int> &b);
 extern string nameOfIndexTxt;
@@ -19,12 +21,16 @@ public:
     }
 };
 
-
+/* Function tompare two vectors */
 int compareTwoVector(vector<string> vec1, vector<string> vec2)
 {
 	return (vec1 == vec2);
 }
 
+/* The following function is used the get the path of library folder
+   for using sample folder in the program. Filesystem library of 
+   C++17 is utilized.
+*/
 void determineExactPathLibrary(string & pathOfLibrary)
 {
 	string a  = std::filesystem::current_path().u8string();
@@ -36,16 +42,21 @@ void determineExactPathLibrary(string & pathOfLibrary)
 	pathOfLibrary = exactPath + slashForPath + "library";
 }
 
+/*  The below function is used for comparing the size of two containers.*/
 int compareSizeOfContainers(int size1, int size2)
 {
 	return (size1 == size2);
 }
 
+/*  The below function is used for comparing two maps.*/
 int compareTwoMap(map<string, wordOccurences> map1, map<string, wordOccurences> map2)
 {
     return (map1 == map2);    
 }
 
+/* The following function is used to test addFile function by comparing two 
+   objects' fileList vectors.
+*/
 TEST_F(InIndex, iterate_through_given_library)
 {
 	InvertedIndex obj1;
@@ -60,6 +71,10 @@ TEST_F(InIndex, iterate_through_given_library)
 	ASSERT_EQ(compareTwoVector(obj1.getFileList(), obj2.getFileList()), 1);	
 }
 
+/* showFiles function is tested according to its return type. Two objects 
+   are created one parse and index given directory, other one not.  Therefore
+   one has vector with info other one not and returns 1
+*/
 TEST_F(InIndex, test_show_files)
 {
 	InvertedIndex obj1;
@@ -75,6 +90,11 @@ TEST_F(InIndex, test_show_files)
     ASSERT_EQ(obj2.showFiles(ss), 1);	
 }
 
+
+/* The following function is used for testing indexAllDir function. This function 
+   stores all the info into map and three objects are used two of them do the process
+   properly and one not. Comparing their maps give if the function works well.
+*/
 TEST_F(InIndex, test_parser_indexer)
 {
 	InvertedIndex obj1;
@@ -96,6 +116,10 @@ TEST_F(InIndex, test_parser_indexer)
 }
 
 
+/* The following test showAllIndex function which prints map if it exist. If
+   it exists it is opened well and return 0 otherwise 1 and this is used for
+   testing.
+*/
 TEST_F(InIndex, test_showing_all_index)
 {
 	InvertedIndex obj;
@@ -113,7 +137,10 @@ TEST_F(InIndex, test_showing_all_index)
     ASSERT_EQ(obj1.showAllIndex(ss), 1);       
 }
 
-
+/* The comp function is used for sorting and it returns 1 if first parameter
+   is greater than second one. Otherwise it returns 0. Two pair is created
+   for mocking path and frequency value of given word.
+*/
 TEST_F(InIndex, test_comparison_function)
 {
 	pair<string, int> a;
@@ -129,6 +156,12 @@ TEST_F(InIndex, test_comparison_function)
 	ASSERT_EQ(comp(a,b), 0);
 }
 
+
+/* The below function is used for testing streamAllIndex function. It inserts 
+   occurenceInFile map into txt file. It uses ostream as an input param. By 
+   default it is cout and stringstream is given for testing purpose here since 
+   it is needed to obtain the content of it. 
+*/
 TEST_F(InIndex, test_streaming_index_to_file)
 {
 	InvertedIndex obj;
@@ -168,6 +201,11 @@ TEST_F(InIndex, test_streaming_index_to_file)
     }
 }
 
+/* The searchWord function is tested which accepts ostream as an input and 
+   it is by default std::cout. Here stringstream is given as an input for 
+   getting the content instead of printing to console. streamAllIndex is 
+   used for comparing with searchWord.
+*/
 TEST_F(InIndex, test_retrieve_word_from_file)
 {
 	InvertedIndex obj;
@@ -205,6 +243,12 @@ TEST_F(InIndex, test_retrieve_word_from_file)
     }    
 }
 
+
+/* The retrieveFunction converts word to lowercase for this reason,
+   given same word in two version has no effect. Here the and The words
+   are queried and the results are compared by using stringstream again 
+   with the help of retrieveFunction and searchWord.
+*/
 TEST_F(InIndex, upper_lower_case_sensitivity)
 {
 	InvertedIndex obj;
