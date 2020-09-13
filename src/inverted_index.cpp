@@ -124,6 +124,14 @@ bool comp(const pair<string, int> &a, const pair<string, int> &b)
 
 void InvertedIndex::searchWord(string wordToSearch)
 {
+	for(int ind = 0; ind <= wordToSearch.size(); ind++)
+    {
+        if(wordToSearch[ind] >= 65 && wordToSearch[ind]<= 90)
+        {
+            wordToSearch[ind] += 32;    
+        }                   
+    }
+	
 	for(auto elem : getOccurenceInFile())
 	{
 		if(wordToSearch == elem.first)
