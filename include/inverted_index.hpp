@@ -30,6 +30,9 @@ class InvertIndex
 		void showAllIndex(void);
 		void indexAllDir(void);
 		void searchWord(string wordToSearch);
+		void streamAllIndex(void);
+		void retrieveWord(string path, string word);
+        friend void commandLineUtility(InvertIndex obj, int argc, char* argv[]);
 		
 		
 };
