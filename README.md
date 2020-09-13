@@ -17,7 +17,13 @@
 	Science/physics/heisenberg.txt (5)
 
    After this user enters word query and the word is retrived and printed to user. In this output, paths are 
-   ordered according to number of occurrences. 
+   ordered according to number of occurrences. This project consists of following modules:
+
+   * Filesystem analyzer for discovering documents in the library
+   * Library indexer
+   * Library searcher 
+   * A command line utility
+   * Unit tests for each of your modules
 
 ## Requirements 
 ---
