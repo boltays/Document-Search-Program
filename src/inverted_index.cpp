@@ -1,5 +1,12 @@
 #include "../include/inverted_index.hpp"
 
+#if defined(_WIN32)
+   string slashForPath = "\\";
+#elif defined(__linux__)
+   string slashForPath = "/";
+#endif
+
+
 string nameOfIndexTxt = "indexedFiles.txt";
 
 void InvertedIndex::addFile(const fs::path& pathToScan, int level)
@@ -13,7 +20,7 @@ void InvertedIndex::addFile(const fs::path& pathToScan, int level)
         else if (entry.is_regular_file()) {
             if(entry.path().extension() == ".txt")
             {       
-                fileList.push_back(entry.path().u8string());   
+                getFileList().push_back(entry.path().u8string());   
             }
             else
             {
@@ -101,7 +108,7 @@ void InvertedIndex::showAllIndex(void)
 
 void InvertedIndex::indexAllDir(void)
 {
-    for(auto it : fileList)
+    for(auto it : getFileList())
     {
         parseAndIndex(it);
     }
@@ -152,8 +159,9 @@ void InvertedIndex::streamAllIndex(void)
 
 void InvertedIndex::retrieveWord(string path, string word)
 {
-    string currentPath = (fs::current_path().u8string()) + '\\' + nameOfIndexTxt;
-    cout <<currentPath <<endl;
+    string currentPath =  string(fs::current_path().u8string()) + slashForPath + nameOfIndexTxt;
+    
+	
     ifstream a(currentPath);
     string line;
     string line1;
