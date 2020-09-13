@@ -4,6 +4,7 @@
 
 
 extern string slashForPath;
+extern bool comp(const pair<string, int> &a, const pair<string, int> &b);
 
 class InIndex : public testing::Test
 {
@@ -91,4 +92,38 @@ TEST_F(InIndex, test_parser_indexer)
 	ASSERT_EQ(compareTwoMap(obj1.getOccurenceInFile(), obj2.getOccurenceInFile()), 1);
 	ASSERT_EQ(compareSizeOfContainers(obj1.getOccurenceInFile().size(), obj2.getOccurenceInFile().size()), 1);
 	ASSERT_EQ(compareSizeOfContainers(obj1.getOccurenceInFile().size(), obj3.getOccurenceInFile().size()), 0);
+}
+
+
+TEST_F(InIndex, test_showing_all_index)
+{
+	InvertedIndex obj;
+	InvertedIndex obj1;
+	
+	string pathOfLibrary;
+	determineExactPathLibrary(pathOfLibrary);
+    obj.addFile(pathOfLibrary);
+    
+    obj.indexAllDir();
+    obj1.indexAllDir();
+    
+    stringstream ss;
+    ASSERT_EQ(obj.showAllIndex(ss), 0);   
+    ASSERT_EQ(obj1.showAllIndex(ss), 1);       
+}
+
+
+TEST_F(InIndex, test_comparison_function)
+{
+	pair<string, int> a;
+	pair<string, int> b;
+	
+	a.first  = "test1";
+	a.second =  45;
+	
+	b.first  = "test2";
+	b.second =  64;
+	
+	ASSERT_EQ(comp(b,a), 1);
+	ASSERT_EQ(comp(a,b), 0);
 }
