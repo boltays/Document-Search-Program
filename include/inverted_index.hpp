@@ -29,9 +29,9 @@ class InvertedIndex
 		int parseAndIndex(string path);
 		int showAllIndex(std::ostream& cout = std::cout);
 		void indexAllDir(void);
-		void searchWord(string wordToSearch);
-		void streamAllIndex(void);
-		void retrieveWord(string path, string word);
+		void searchWord(string wordToSearch, std::ostream& cout = std::cout);
+		int streamAllIndex(std::ostream& = std::cout);
+		void retrieveWord(string path, string word, std::ostream& cout = std::cout);
         friend void commandLineUtility(InvertedIndex obj, int argc, char* argv[]);
 		vector<string> & getFileList(void);
 		map<string, wordOccurences> & getOccurenceInFile(void);
