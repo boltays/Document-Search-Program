@@ -121,6 +121,91 @@ void InvertIndex::searchWord(string wordToSearch)
 	}
 }
 
+void InvertIndex::streamAllIndex(void)
+{
+    ofstream fileToSerialize(nameOfIndexTxt);
+    //
+    for(auto elem : occurencesInFile)
+    {
+        sort(elem.second.begin(), elem.second.end(), comp);
+        //std::cout << elem.first << "\n";
+        
+        fileToSerialize << elem.first <<endl;
+        for(auto it : elem.second)
+        {
+            fileToSerialize <<it.first <<" " <<it.second <<endl;
+            //cout <<it.first <<" " <<it.second <<"\n";
+        }
+        fileToSerialize <<endl ;
+    }
+}
+
+void InvertIndex::retrieveWord(string path, string word)
+{
+    string currentPath = (fs::current_path().u8string()) + '\\' + nameOfIndexTxt;
+    cout <<currentPath <<endl;
+    ifstream a(currentPath);
+    string line;
+    string line1;
+    
+    for(int ind = 0; ind <= word.size(); ind++)
+    {
+        if(word[ind] >= 65 && word[ind]<= 90)
+        {
+            word[ind] += 32;    
+        }                   
+    }
+    for(unsigned int curLine = 1; getline(a, line); ++curLine)
+     {    
+        if (line.find(word) != string::npos) {
+            if(!line.compare(word))
+            {
+                while(getline(a, line1, '\n'))
+                {
+                    cout <<line1 <<endl;
+                    if(line1.size() == 0)
+                    {
+                        break;
+                    }
+                }                
+            }
+        }
+    }
+}
+
+void commandLineUtility(InvertIndex obj, int argc, char* argv[])
+{
+    //cout <<argc <<endl;
+    //cout <<argv[1] <<" " <<argv[2] <<endl;
+    static string path;
+    cout <<path <<endl;
+    
+    if(argc > 1)
+    {
+        if(argv[1] == string("-index"))
+        {
+            //cout <<"index"<<endl;
+            path = argv[2];
+            cout <<path <<endl;
+            obj.addFile(string(argv[2]));
+            obj.indexAllDir();           
+            //obj.showFiles();
+            obj.streamAllIndex();
+        }
+        else if(argv[1] == string("-search") )
+        {
+            std::cout << "Current path is " << fs::current_path() << '\n';
+            cout <<path <<endl;
+            obj.retrieveWord(path, argv[2]);
+        }
+        else
+        {
+            
+        }
+    }
+}
+
+
 
 
 
