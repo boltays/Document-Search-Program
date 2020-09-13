@@ -9,6 +9,10 @@
 
 string nameOfIndexTxt = "indexedFiles.txt";
 
+
+InvertedIndex::InvertedIndex(){}
+
+
 void InvertedIndex::addFile(const fs::path& pathToScan, int level)
 {
     for (const auto& entry : fs::directory_iterator(pathToScan)) {
