@@ -133,7 +133,7 @@ bool comp(const pair<string, int> &a, const pair<string, int> &b)
     return term1>term2;
 }
 
-void InvertedIndex::searchWord(string wordToSearch)
+void InvertedIndex::searchWord(string wordToSearch, std::ostream& cout)
 {
 	for(int ind = 0; ind <= wordToSearch.size(); ind++)
     {
@@ -147,7 +147,7 @@ void InvertedIndex::searchWord(string wordToSearch)
 	{
 		if(wordToSearch == elem.first)
 		{
-			std::cout << elem.first << "\n"; 
+			//cout << elem.first << "\n"; 
 			sort(elem.second.begin(), elem.second.end(), comp);
 			for(auto it : elem.second)
             {                  
@@ -157,26 +157,33 @@ void InvertedIndex::searchWord(string wordToSearch)
 	}
 }
 
-void InvertedIndex::streamAllIndex(void)
+int InvertedIndex::streamAllIndex(std::ostream& cout)
 {
     ofstream fileToSerialize(nameOfIndexTxt);
-    //
-    for(auto elem : getOccurenceInFile())
+    if(fileToSerialize.is_open())
     {
-        sort(elem.second.begin(), elem.second.end(), comp);
-        //std::cout << elem.first << "\n";
+    	for(auto elem : occurencesInFile)
+    	{
+        	sort(elem.second.begin(), elem.second.end(), comp);
+        	cout << elem.first << "\n";
         
-        fileToSerialize << elem.first <<endl;
-        for(auto it : elem.second)
-        {
-            fileToSerialize <<it.first <<" " <<it.second <<endl;
-            //cout <<it.first <<" " <<it.second <<"\n";
-        }
-        fileToSerialize <<endl ;
+        	fileToSerialize << elem.first <<endl;
+        	for(auto it : elem.second)
+        	{
+            	fileToSerialize <<it.first <<" " <<it.second <<endl;
+            	cout <<it.first <<" " <<it.second <<"\n";
+        	}
+        	fileToSerialize <<endl ;
+    	}
     }
+    else
+    {
+    	return 1;
+    }
+    return 0;
 }
 
-void InvertedIndex::retrieveWord(string path, string word)
+void InvertedIndex::retrieveWord(string path, string word, std::ostream& cout)
 {
     string currentPath =  string(fs::current_path().u8string()) + slashForPath + nameOfIndexTxt;
     
@@ -227,7 +234,8 @@ void commandLineUtility(InvertedIndex obj, int argc, char* argv[])
             obj.addFile(string(argv[2]));
             obj.indexAllDir();           
             //obj.showFiles();
-            obj.streamAllIndex();
+			stringstream ss;
+            obj.streamAllIndex(ss);
         }
         else if(argv[1] == string("-search") )
         {
