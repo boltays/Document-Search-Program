@@ -25,7 +25,7 @@ class InvertedIndex
 		vector<string> fileList;
     public:
         void addFile(const fs::path& pathToScan, int level = 0);
-        void showFiles();
+        int showFiles(std::ostream& cout = std::cout);
 		int parseAndIndex(string path);
 		void showAllIndex(void);
 		void indexAllDir(void);
