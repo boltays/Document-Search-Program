@@ -18,11 +18,11 @@ using namespace std;
 typedef vector<pair<string, int>> wordOccurences;
 
 
-class InvertIndex
+class InvertedIndex
 {
-    map<string, wordOccurences> occurencesInFile;
-    vector<string> fileList;
-
+	private:
+		map<string, wordOccurences> occurencesInFile;
+		vector<string> fileList;
     public:
         void addFile(const fs::path& pathToScan, int level = 0);
         void showFiles();
@@ -32,7 +32,9 @@ class InvertIndex
 		void searchWord(string wordToSearch);
 		void streamAllIndex(void);
 		void retrieveWord(string path, string word);
-        friend void commandLineUtility(InvertIndex obj, int argc, char* argv[]);
+        friend void commandLineUtility(InvertedIndex obj, int argc, char* argv[]);
+		vector<string> & getFileList(void);
+		map<string, wordOccurences> & getOccurenceInFile(void);
 		
 		
 };
