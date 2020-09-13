@@ -2,7 +2,7 @@
 
 string nameOfIndexTxt = "indexedFiles.txt";
 
-void InvertIndex::addFile(const fs::path& pathToScan, int level)
+void InvertedIndex::addFile(const fs::path& pathToScan, int level)
 {
     for (const auto& entry : fs::directory_iterator(pathToScan)) {
         const auto filenameStr = entry.path().filename().string();
@@ -27,16 +27,26 @@ void InvertIndex::addFile(const fs::path& pathToScan, int level)
     }
 }
 
-void InvertIndex::showFiles()
+vector<string> & InvertedIndex::getFileList(void)
 {
-    for (auto it : fileList)
+	return this->fileList;
+}
+
+void InvertedIndex::showFiles()
+{
+    for (auto it : getFileList())
     {
         cout << it << endl;
     }
 }
 
 
-int InvertIndex::parseAndIndex(string path)
+map<string, wordOccurences> & InvertedIndex::getOccurenceInFile(void)
+{
+	return occurencesInFile;
+}
+
+int InvertedIndex::parseAndIndex(string path)
 {
     ifstream file;
     file.open(path);
@@ -71,15 +81,15 @@ int InvertIndex::parseAndIndex(string path)
     }
     for(auto wit = categories.begin(); wit != categories.end(); ++wit)
     {
-        occurencesInFile[wit->first].push_back(make_pair(path, wit->second));
+        getOccurenceInFile()[wit->first].push_back(make_pair(path, wit->second));
     }
     return 0;
 }
 
 
-void InvertIndex::showAllIndex(void)
+void InvertedIndex::showAllIndex(void)
 {
-    for(auto elem : occurencesInFile)
+    for(auto elem : getOccurenceInFile())
     {
         std::cout << elem.first << "\n";
         for(auto it : elem.second)
@@ -89,7 +99,7 @@ void InvertIndex::showAllIndex(void)
     }
 }
 
-void InvertIndex::indexAllDir(void)
+void InvertedIndex::indexAllDir(void)
 {
     for(auto it : fileList)
     {
@@ -105,9 +115,9 @@ bool comp(const pair<string, int> &a, const pair<string, int> &b)
     return term1>term2;
 }
 
-void InvertIndex::searchWord(string wordToSearch)
+void InvertedIndex::searchWord(string wordToSearch)
 {
-	for(auto elem : occurencesInFile)
+	for(auto elem : getOccurenceInFile())
 	{
 		if(wordToSearch == elem.first)
 		{
@@ -121,11 +131,11 @@ void InvertIndex::searchWord(string wordToSearch)
 	}
 }
 
-void InvertIndex::streamAllIndex(void)
+void InvertedIndex::streamAllIndex(void)
 {
     ofstream fileToSerialize(nameOfIndexTxt);
     //
-    for(auto elem : occurencesInFile)
+    for(auto elem : getOccurenceInFile())
     {
         sort(elem.second.begin(), elem.second.end(), comp);
         //std::cout << elem.first << "\n";
@@ -140,7 +150,7 @@ void InvertIndex::streamAllIndex(void)
     }
 }
 
-void InvertIndex::retrieveWord(string path, string word)
+void InvertedIndex::retrieveWord(string path, string word)
 {
     string currentPath = (fs::current_path().u8string()) + '\\' + nameOfIndexTxt;
     cout <<currentPath <<endl;
@@ -173,7 +183,7 @@ void InvertIndex::retrieveWord(string path, string word)
     }
 }
 
-void commandLineUtility(InvertIndex obj, int argc, char* argv[])
+void commandLineUtility(InvertedIndex obj, int argc, char* argv[])
 {
     //cout <<argc <<endl;
     //cout <<argv[1] <<" " <<argv[2] <<endl;
