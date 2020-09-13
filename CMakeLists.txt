@@ -18,9 +18,12 @@ set_property(TARGET main PROPERTY CXX_STANDARD_REQUIRED ON)
 
 set(PROJECT_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
 set(PROJECT_SRC_DIR ${PROJECT_SOURCE_DIR}/src)
+set(PROJECT_TEST_DIR ${PROJECT_SOURCE_DIR}/test)
 
 include_directories(${PROJECT_INCLUDE_DIR})
 include_directories(include)
+
+add_subdirectory(test)
 
 
 
