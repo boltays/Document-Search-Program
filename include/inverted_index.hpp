@@ -27,7 +27,7 @@ class InvertedIndex
         void addFile(const fs::path& pathToScan, int level = 0);
         int showFiles(std::ostream& cout = std::cout);
 		int parseAndIndex(string path);
-		void showAllIndex(void);
+		int showAllIndex(std::ostream& cout = std::cout);
 		void indexAllDir(void);
 		void searchWord(string wordToSearch);
 		void streamAllIndex(void);
