@@ -107,13 +107,13 @@ For running project in Windows, the user should follow the following instruction
    opened. Here you must enter bunch of commands to make your environment prepared. The 
    commands are as following:
 			
-* On 64 bits computer the following:
+   * On 64 bits computer the following:
 	pacman -S mingw-w64-x86_64-gcc
 			 
-* Then for installing make:
+   * Then for installing make:
 	pacman -S mingw64/mingw-w64-x86_64-make
 			 
-* Then for installing cmake:
+   * Then for installing cmake:
 	pacman -S mingw-w64-x86_64-cmake
 		
 4. After all the tools are installed, download googletest below, which is the latest version 
