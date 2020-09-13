@@ -131,15 +131,15 @@ For running project in Windows, the user should follow the following instruction
 		
 7. After that run following commands for building googletest:
    * cmake ../ -G "MinGW Makefiles"
-   * mingw32-make
+   * mingw32-make.exe
 
-8. After succesfull building get git link of project by using git clone link.
+8. After succesfull building get git link of Document Search Project by using git clone link.
 		
 9. Enter to the downloaded directory and run following commands:
    * mkdir build
    * cd build
    * cmake ../ -G "MinGW Makefiles"
-   * mingw32-make	
+   * mingw32-make.exe	
 
 10. Following commands must be entered in build directory:
     * For indexing library type:
