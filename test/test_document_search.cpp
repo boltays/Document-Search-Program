@@ -228,7 +228,7 @@ TEST_F(InIndex, upper_lower_case_sensitivity)
     obj.retrieveWord(path, "the", retrieveFunction);
     obj.searchWord("The", searchWordFunction);
     
-    cout <<path <<endl;
+    //cout <<path <<endl;
     string line;
     string line1;
     
