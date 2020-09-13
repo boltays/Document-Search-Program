@@ -149,10 +149,6 @@ void InvertedIndex::indexAllDir(void)
 }
 
 
-
-
-
-
 /* After parsing whole txt files and the occurencesInFile map is created, the below
    function is utilized to print occurencesInFile to the console. It has ostream cout 
    as an input parameter which is used for testing by giving stringstream to it. It 
