@@ -100,16 +100,21 @@ int InvertedIndex::parseAndIndex(string path)
 }
 
 
-void InvertedIndex::showAllIndex(void)
+int InvertedIndex::showAllIndex(std::ostream& cout)
 {
+    if(getOccurenceInFile().size() == 0)
+	{
+		return 1;
+	}
     for(auto elem : getOccurenceInFile())
     {
-        std::cout << elem.first << "\n";
+        cout << elem.first << "\n";
         for(auto it : elem.second)
         {
             cout <<it.first <<" " <<it.second <<"\n";
         }
     }
+    return 0;
 }
 
 void InvertedIndex::indexAllDir(void)
