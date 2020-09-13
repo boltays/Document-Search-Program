@@ -24,6 +24,7 @@ class InvertedIndex
 		map<string, wordOccurences> occurencesInFile;
 		vector<string> fileList;
     public:
+		InvertedIndex();
         void addFile(const fs::path& pathToScan, int level = 0);
         int showFiles(std::ostream& cout = std::cout);
 		int parseAndIndex(string path);
